@@ -1,14 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Title from './components/title'
+import Footer from "./components/footer.jsx";
 import Countdown from './components/countdown'
+import GridImagesAnswer from "./components/gridImagesAnswer.jsx";
 import './styles/App.css'
+import GridImagesSelection from "./components/gridImagesSelection.jsx";
+
+
 
 function App() {
   const [difficulty, setDifficulty] = useState('Easy')
   const [stage, setStage] = useState(1)
   const [level, setLevel] = useState(1)
 
-  const [time, setTime] = useState(3)
+  const [imagesSelected, setImagesSelected] = useState([])
+  const [count, setCount] = useState(3)
 
   const [menu, setMenu] = useState(0)
 
@@ -26,56 +32,89 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    if(menu === 1){
-      
-    }
-  }, [menu])
-
   return (
-    <>
+    <main className='container'>
+      <Title />
       {
         menu === 0 ?
         (
           <>
-            <Title />
 
-            <div class="buttons">
-              <button class="button" onClick={ () => { setMenu(1) } }>
+
+            <div className="menu">
+              <button className="button inicio" onClick={ () => { setMenu(1) } }>
                 Play
               </button>
 
-              <button class="button" onClick={ () => configureDifficulty() }>
+              <button className="button inicio" onClick={ () => configureDifficulty() }>
                 Difficulty: {difficulty}
               </button>
 
-              <a class="button" href='https://github.com/Urias-Flores/Memorization-Game-Server'>Go to repository</a>
+              <a
+                className="button inicio"
+                href='https://github.com/Urias-Flores/Memorization-Game-Server'
+              >
+                Go to repository
+              </a>
             </div>
           </>
-        ) : 
+        ) :
         (
           <>
-            <Title />
-            
-           
-
             <div className='information'>
               <p>Difficulty: {difficulty}</p>
               <p>Stage: {stage}</p>
               <p>Level: {level}</p>
             </div>
 
-            <Countdown />
+            {
+              count > 0 &&
+              <div className="game-zone">
+                <Countdown
+                  count={count}
+                  setCount={setCount}
+                />
+              </div>
 
-            <button class="button" onClick={ () => { setMenu(0) } }>
-                  Volver
-            </button>
+            }
+
+
+            {
+              count === 0 &&
+              <div className='game-zone'>
+                <GridImagesAnswer
+                  numberImages={6}
+                  images={imagesSelected}
+                  setImages={setImagesSelected}
+                />
+
+                <GridImagesSelection
+                  imagesSelected={imagesSelected}
+                  setImagesSelected={setImagesSelected}
+                />
+              </div>
+
+            }
+
+            <div className='actions'>
+              <button className="button" onClick={ () => { setCount(3); setMenu(0) } }>
+                Volver
+              </button>
+
+              <button className="button" onClick={ () => { setCount(3); setImagesSelected([]) } }>
+                Reiniciar juego
+              </button>
+
+              <button className="button" onClick={ () => { setCount(3) } }>
+                Comprobar
+              </button>
+            </div>
           </>
         )
       }
-      
-    </>
-    
+
+      <Footer />
+    </main>
   )
 }
 

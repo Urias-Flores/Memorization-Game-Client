@@ -1,19 +1,51 @@
+.root{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  margin-bottom: 20px;
+}
+
 body {
   background-color: #1c1c1c; /* Fondo gris oscuro */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   height: 100vh;
   margin: 0;
   font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+footer{
+  margin-top: 10px;
+  color: white;
+}
+
+footer a{
+  text-align: left;
+  color: white;
+  text-decoration: none;
+}
+
+footer img{
+  width: 120px;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
-  margin-top: 100px;
+  margin-top: 20px;
   font-size: 48px;
   font-weight: bold;
   display: flex;
   gap: 5px;
+  justify-content: center;
 }
 
 .letter {
@@ -32,12 +64,18 @@ body {
   color: #3498db; /* Letra azul */
 }
 
-.buttons {
-  margin: 40px auto 0 auto;
+.menu {
+  margin: 140px auto 0 auto;
   display: flex;
   flex-direction: column;
   width: 370px;
   gap: 30px;
+}
+
+.actions{
+  display: flex;
+  gap: 30px;
+  justify-content: center;
 }
 
 .button {
@@ -60,18 +98,15 @@ body {
 .information{
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 50px;
   color: white;
 }
 
-.countdown{
-  margin: 40px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+.countdown p{
+  font-size: 40px;
+  font-weight: bold;
   color: white;
-  font-size: 18px;
 }
 
 .information p{
@@ -81,4 +116,80 @@ body {
   font-weight: bold;
   border-radius: 7px;
   border: 2px solid white;
+}
+
+.game-zone{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 440px;
+}
+
+.grid-images-answer{
+  display: flex;
+  gap: 10px;
+  border: 2px solid #484848;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 20px 0;
+}
+
+.grid-images-selection{
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  border: 2px solid #484848;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 0 auto 20px auto;
+}
+
+.item-background{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #484848;
+  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  cursor: pointer;
+  transition: margin 500ms, width 500ms, height 500ms;
+}
+
+.item-background:hover{
+  width: 110px;
+  height: 110px;
+  margin: 0;
+}
+
+.item-image{
+  border-radius: 10px;
+  width: 70px;
+  height: 70px;
+  transition: width 500ms, height 500ms;
+}
+
+.item-image:hover{
+  border-radius: 10px;
+  width: 80px;
+  height: 80px;
+}
+
+.remove-image{
+  top: -7px;
+  right: -7px;
+  position: absolute;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+  color: white;
+  border-radius: 50%;
+}
+
+.x-image{
+  width: 20px;
 }
