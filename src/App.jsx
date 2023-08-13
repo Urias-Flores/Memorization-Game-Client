@@ -1,20 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
 import Title from './components/title'
 import Footer from "./components/footer.jsx";
 import Countdown from './components/countdown'
-import GridImagesAnswer from "./components/gridImagesAnswer.jsx";
+import InGame from "./components/inGame.jsx";
+import Sequencer from "./components/sequencer.jsx";
+
+import {TestImages} from "./models/image.js";
+
 import './styles/App.css'
-import GridImagesSelection from "./components/gridImagesSelection.jsx";
+
 
 
 
 function App() {
-  const [difficulty, setDifficulty] = useState('Easy')
-  const [stage, setStage] = useState(1)
-  const [level, setLevel] = useState(1)
+  const [difficulty, setDifficulty] = useState('Easy');
+  const [stage, setStage] = useState(1);
+  const [level, setLevel] = useState(1);
+  const [remainingTime, setRemainingTime] = useState(10000);
+  const [remainingTimeState, setRemainingTimeState] = useState(10000);
 
-  const [imagesSelected, setImagesSelected] = useState([])
+  const [imagesSelected, setImagesSelected] = useState([]);
+  const [display, setDisplay] = useState('counter');
   const [count, setCount] = useState(3)
+
 
   const [menu, setMenu] = useState(0)
 
@@ -65,47 +74,57 @@ function App() {
               <p>Difficulty: {difficulty}</p>
               <p>Stage: {stage}</p>
               <p>Level: {level}</p>
+              <p>Remaining time: { remainingTimeState / 1000 }</p>
             </div>
 
-            {
-              count > 0 &&
-              <div className="game-zone">
+            <div className='game-zone'>
+              {
+                display === 'counter' &&
                 <Countdown
                   count={count}
                   setCount={setCount}
+                  setDisplay={setDisplay}
                 />
-              </div>
+              }
 
-            }
-
-
-            {
-              count === 0 &&
-              <div className='game-zone'>
-                <GridImagesAnswer
-                  numberImages={6}
-                  images={imagesSelected}
-                  setImages={setImagesSelected}
+              {
+                display === 'sequence' &&
+                <Sequencer
+                  images={TestImages}
+                  displayTime={3000}
+                  setDisplay={setDisplay}
                 />
+              }
 
-                <GridImagesSelection
+              {
+                display === 'playing' &&
+                <InGame
+                  remainingTime={remainingTime}
+                  setDisplay={setDisplay}
+                  remainingTimeState={remainingTimeState}
+                  setRemainingTimeState={setRemainingTimeState}
+                  setCount={setCount}
                   imagesSelected={imagesSelected}
                   setImagesSelected={setImagesSelected}
                 />
-              </div>
-
-            }
+              }
+            </div>
 
             <div className='actions'>
-              <button className="button" onClick={ () => { setCount(3); setMenu(0) } }>
+              <button className="button" onClick={ () => { setMenu(0) } }>
                 Volver
               </button>
 
-              <button className="button" onClick={ () => { setCount(3); setImagesSelected([]) } }>
+              <button className="button" onClick={ () => {
+                  setImagesSelected([]);
+                  setCount(3)
+                  setDisplay('counter');
+                }
+              }>
                 Reiniciar juego
               </button>
 
-              <button className="button" onClick={ () => { setCount(3) } }>
+              <button className="button" onClick={ () => {  } }>
                 Comprobar
               </button>
             </div>
