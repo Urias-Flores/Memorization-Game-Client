@@ -74,13 +74,8 @@ function App() {
       setRemainingTimeState(remainingTimeState - 1000)
     }, 1000)
 
-    if( remainingTimeState === 0 ) {
-      setRemainingTimeState(10000)
-      return;
-    }
-
     return () => clearInterval(interval)
-  }, [remainingTime]);
+  }, [remainingTime, remainingTimeState]);
 
   return (
     <main className='container'>
@@ -100,7 +95,7 @@ function App() {
             <div className='information'>
               <p>Difficulty: {difficulty}</p>
               <p>Stage: {stage}</p>
-              <p>Level: {level-1}</p>
+              <p>Level: {stage === 1 ? level - 1 : level}</p>
               <p>Remaining time: { remainingTimeState / 1000 }</p>
             </div>
 
@@ -128,8 +123,6 @@ function App() {
                 <InGame
                   remainingTime={remainingTime}
                   setDisplay={setDisplay}
-                  remainingTimeState={remainingTimeState}
-                  setRemainingTimeState={setRemainingTimeState}
                   setCount={setCount}
                   imagesSelected={imagesSelected}
                   setImagesSelected={setImagesSelected}
@@ -188,6 +181,7 @@ function App() {
                 <button
                   className="button"
                   onClick={ () => {
+                      setCount(3);
                       setDisplay('counter');
                       setImagesSelected([])
                     }

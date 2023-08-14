@@ -17,11 +17,6 @@ export default function Countdown({ count, setCount, setDisplay }) {
     return (
       <div className="countdown">
         { count > 0 ? <p>{count}</p> : <p></p> }
-
-        {
-        count === 0 &&
-          <p>Cargando imagenes</p>
-        }
       </div>
     );
   }

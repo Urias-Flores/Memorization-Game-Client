@@ -7,8 +7,6 @@ export default function InGame (
     setImagesSelected,
     imagesInGame,
     remainingTime,
-    remainingTimeState,
-    setRemainingTimeState,
     setDisplay,
     setCount
   }
