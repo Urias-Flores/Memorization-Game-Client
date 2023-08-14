@@ -6,6 +6,15 @@ class Image{
   }
 }
 
+export function getRandomImages(num_images){
+  const images = []
+  for(let i = 0; i < num_images; i ++){
+    const randomNumber = Math.floor(Math.random() * 10) + 1;
+    images[i] = new Image( i, `/images/image-${randomNumber}.svg` );
+  }
+  return images;
+}
+
 export const Images = [
   new Image( 1, `/images/image-1.svg` ),
   new Image( 2, `/images/image-2.svg` ),

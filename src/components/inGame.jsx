@@ -2,32 +2,28 @@ import GridImagesAnswer from "./gridImagesAnswer.jsx";
 import GridImagesSelection from "./gridImagesSelection.jsx";
 import {useEffect} from "react";
 
-export default function InGame ({ imagesSelected, setImagesSelected, remainingTime, remainingTimeState, setRemainingTimeState, setDisplay, setCount }){
+export default function InGame (
+  { imagesSelected,
+    setImagesSelected,
+    imagesInGame,
+    remainingTime,
+    remainingTimeState,
+    setRemainingTimeState,
+    setDisplay,
+    setCount
+  }
+  ){
   useEffect(() => {
     setTimeout( () => {
       setCount(3)
-      setDisplay('counter')
+      setDisplay('verify')
     },  remainingTime)
   }, [])
-
-  useEffect(() => {
-    if( remainingTimeState === 0 ) {
-      setRemainingTimeState(10000)
-      return;
-    }
-
-    const interval = setInterval( () => {
-      setRemainingTimeState(remainingTimeState - 1000)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [remainingTimeState]);
-
 
   return (
     <>
       <GridImagesAnswer
-        numberImages={6}
+        numberImages={imagesInGame.length}
         images={imagesSelected}
         setImages={setImagesSelected}
       />
