@@ -15,6 +15,12 @@ export function getRandomImages(num_images){
   return images;
 }
 
+export function getImages( images_number ){
+  return images_number.map( image_number =>
+     new Image( image_number, `/images/image-${image_number}.svg` )
+  );
+}
+
 export const Images = [
   new Image( 1, `/images/image-1.svg` ),
   new Image( 2, `/images/image-2.svg` ),

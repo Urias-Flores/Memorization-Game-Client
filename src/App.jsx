@@ -7,7 +7,7 @@ import Sequencer from "./components/sequencer.jsx";
 import InGame from "./components/inGame.jsx";
 import Verify from "./components/verify.jsx";
 
-import {getRandomImages, TestImages} from "./models/image.js";
+import {getImages, getRandomImages} from "./models/image.js";
 
 import './styles/App.css'
 import MainMenu from "./components/mainMenu.jsx";
@@ -49,7 +49,7 @@ function App() {
   useEffect(() => {
     function getGameConfiguration(){
       getGameConfig(difficulty, stage, level).then( values => {
-        setImagesInGame( getRandomImages( values.num_images ) )
+        setImagesInGame( getImages( values.images ) )
         setDisplayTime( values.display_time * 1000 )
         setRemainingTime( values.response_time * 1000 )
 
@@ -68,14 +68,25 @@ function App() {
   }, [display]);
 
   useEffect(() => {
-    setRemainingTimeState(remainingTime)
+    if(display === 'counter'){
+      setRemainingTimeState(remainingTime)
+    }
+  }, [display, remainingTime]);
 
-    const interval = setInterval( () => {
-      setRemainingTimeState(remainingTimeState - 1000)
-    }, 1000)
+  useEffect(() => {
+    if(display === 'playing'){
+      const interval = setInterval( () => {
+        setRemainingTimeState(remainingTimeState - 1000)
+      }, 1000)
 
-    return () => clearInterval(interval)
-  }, [remainingTime, remainingTimeState]);
+      if(remainingTimeState === 0){
+        setCount(3)
+        setDisplay('verify')
+      }
+
+      return () => clearInterval(interval)
+    }
+  }, [display, remainingTimeState]);
 
   return (
     <main className='container'>
@@ -148,6 +159,7 @@ function App() {
                   setMenu(0)
                   setLevel(1)
                   setStage(1)
+                  setImagesSelected([])
                 }
               }>
                 Volver

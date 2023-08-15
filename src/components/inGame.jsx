@@ -11,12 +11,15 @@ export default function InGame (
     setCount
   }
   ){
+
+  /*
   useEffect(() => {
     setTimeout( () => {
       setCount(3)
       setDisplay('verify')
     },  remainingTime)
   }, [])
+  */
 
   return (
     <>
