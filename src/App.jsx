@@ -1,27 +1,24 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 
 import Title from './components/title'
+import MainMenu from "./components/mainMenu.jsx";
 import Footer from "./components/footer.jsx";
 import Countdown from './components/countdown';
 import Sequencer from "./components/sequencer.jsx";
 import InGame from "./components/inGame.jsx";
 import Verify from "./components/verify.jsx";
 
-import {getImages, getRandomImages} from "./models/image.js";
+import { getImages } from "./models/image.js";
+import { getGameConfig } from "./server/gameConfig.js";
 
 import './styles/App.css'
-import MainMenu from "./components/mainMenu.jsx";
-import {getGameConfig} from "./helpers/gameConfig.js";
-
-
-
 
 function App() {
   const [difficulty, setDifficulty] = useState('Easy');
   const [stage, setStage] = useState(1);
   const [level, setLevel] = useState(1);
 
-  const [imagesInGame, setImagesInGame] = useState(getRandomImages(4));
+  const [imagesInGame, setImagesInGame] = useState([]);
   const [displayTime, setDisplayTime] = useState(3000);
   const [remainingTime, setRemainingTime] = useState(10000);
   const [remainingTimeState, setRemainingTimeState] = useState(10000);
@@ -46,26 +43,33 @@ function App() {
     }
   }
 
+  function getGameConfiguration(){
+    getGameConfig(difficulty, stage, level).then( values => {
+      setImagesInGame( getImages( values.images ) )
+      setDisplayTime( values.display_time * 1000 )
+      setRemainingTime( values.response_time * 1000 )
+    })
+  }
+
   useEffect(() => {
-    function getGameConfiguration(){
-      getGameConfig(difficulty, stage, level).then( values => {
-        setImagesInGame( getImages( values.images ) )
-        setDisplayTime( values.display_time * 1000 )
-        setRemainingTime( values.response_time * 1000 )
+    if(display === 'counter'){
+      getGameConfiguration()
 
-        if(level === 5){
-          setStage(stage + 1)
-          setLevel(1)
-        } else {
-          setLevel(level + 1)
-        }
-      })
+      if(level === 5){
+        setStage(stage + 1)
+        setLevel(1)
+      } else {
+        setLevel(level + 1)
+      }
     }
+  }, [display]);
 
+  useEffect(() => {
     if(display === 'counter'){
       getGameConfiguration()
     }
-  }, [display]);
+  }, [difficulty]);
+
 
   useEffect(() => {
     if(display === 'counter'){
@@ -156,21 +160,22 @@ function App() {
 
             <div className='actions'>
               <button className="button" onClick={ () => {
-                  setMenu(0)
-                  setLevel(1)
-                  setStage(1)
-                  setImagesSelected([])
+                  setMenu(0);
+                  setCount(3)
+                  setLevel(1);
+                  setStage(1);
+                  setImagesSelected([]);
                 }
               }>
                 Volver
               </button>
 
               <button className="button" onClick={ () => {
-                  setImagesSelected([]);
-                  setCount(3)
+                  setCount(3);
                   setDisplay('counter');
-                  setLevel(1)
-                  setStage(1)
+                  setLevel(1);
+                  setStage(1);
+                  setImagesSelected([]);
                 }
               }>
                 Reiniciar juego
@@ -189,13 +194,13 @@ function App() {
               }
 
               {
-                display === 'verify' && isCorrect === true &&
+                display === 'verify' && isCorrect &&
                 <button
                   className="button"
                   onClick={ () => {
                       setCount(3);
+                      setImagesSelected([]);
                       setDisplay('counter');
-                      setImagesSelected([])
                     }
                   }>
                   Siguiente
